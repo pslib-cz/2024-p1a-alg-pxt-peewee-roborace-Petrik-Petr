@@ -1,28 +1,28 @@
-type IRC = {
-    l: DigitalPin,
-    c: DigitalPin,
-    r: DigitalPin
+radio.setGroup(123)
+radio.setFrequencyBand(48)
+radio.setTransmitSerialNumber(true)
+let packet: string
+type zolik = {
+    x: Number,
+    y: Number
 }
-type PinData = {
-    l: boolean,
-    c: boolean,
-    r: boolean
-}
-const IR: IRC = {
-    l: DigitalPin.P14,
-    c: DigitalPin.P15,
-    r: DigitalPin.P13
-}
-pins.setPull(IR.l, PinPullMode.PullNone);
-pins.setPull(IR.c, PinPullMode.PullNone);
-pins.setPull(IR.r, PinPullMode.PullNone);
+let gril = 0
+let f = 0
+let kolik: zolik = { x: 0, y: 0 }
+let zprava: string
+let zprva: string
 
-let data: PinData = {l: false, c: false, r: false};
 basic.forever(function () {
-    data.l = pins.digitalReadPin(IR.l) === 1;
-    data.c = pins.digitalReadPin(IR.c) === 1;
-    data.r = pins.digitalReadPin(IR.r) === 1;
-    console.log(data);
-
-    basic.pause(20)
+    input.onButtonPressed(Button.A, function () {
+        kolik.x = 1
+    })
+    input.onButtonPressed(Button.B, function () {
+        kolik.y = 1
+    })
+    kolik.y = input.acceleration(Dimension.Y)
+    zprva = convertToText((kolik.x))
+    zprava = convertToText((kolik.y))
+    basic.pause(10)
+    radio.sendString(zprava + ',' + zprva)
+    basic.pause(10)
 })
