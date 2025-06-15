@@ -1,28 +1,49 @@
 radio.setGroup(123)
 radio.setFrequencyBand(48)
 radio.setTransmitSerialNumber(true)
-let packet: string
-type zolik = {
-    x: Number,
-    y: Number
-}
-let gril = 0
-let f = 0
-let kolik: zolik = { x: 0, y: 0 }
-let zprava: string
-let zprva: string
-
+let zprava = 0
+let uh = 2
+let nuh = 2
+let tuňák = convertToText(zprava)
 basic.forever(function () {
+    let tuňák = convertToText(zprava)
+    console.log(tuňák)
+    basic.pause(0)
     input.onButtonPressed(Button.A, function () {
-        kolik.x = 1
+        if (uh == 2) {
+            zprava = 1
+            uh = 1
+            nuh = 2
+            control.inBackground(function () {
+                basic.showNumber(zprava, 0.01)
+            })
+        } else if (uh == 1) {
+            zprava = 2
+            uh = 2
+            control.inBackground(function () {
+                basic.showNumber(zprava, 0.01)
+            })
+        }
+        let tuňák = convertToText(zprava)
     })
     input.onButtonPressed(Button.B, function () {
-        kolik.y = 1
+        if (nuh == 2) {
+            zprava = 3
+            nuh = 1
+            uh = 2
+            control.inBackground(function () {
+                basic.showNumber(zprava, 0.01)
+            })
+        } else if (nuh == 1) {
+            zprava = 4
+            nuh = 2
+            uh = 2
+            control.inBackground(function () {
+                basic.showNumber(zprava, 0.01)
+            })
+        }
     })
-    kolik.y = input.acceleration(Dimension.Y)
-    zprva = convertToText((kolik.x))
-    zprava = convertToText((kolik.y))
-    basic.pause(10)
-    radio.sendString(zprava + ',' + zprva)
-    basic.pause(10)
+    input.onButtonPressed(Button.AB, function () {
+        radio.sendString(tuňák)
+    })
 })
